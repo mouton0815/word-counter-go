@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+    "fmt"
+    "sort"
+)
 
 type Counter interface {
     Count(wordQueue chan string)
@@ -21,12 +24,37 @@ func (c *CounterImpl) Count(wordQueue chan string)  {
     }
 }
 
+// TODO: Move sorting to extra file?
+// Sorting helpers
+type WordCount struct {
+    word string
+    count int
+}
+
+type ByWordCount []WordCount
+
+func (a ByWordCount) Len() int {
+    return len(a)
+}
+
+// TODO: Why does this work considering that "a" is passed by value?
+func (a ByWordCount) Swap(i, j int) {
+    a[i], a[j] = a[j], a[i]
+}
+
+func (a ByWordCount) Less(i, j int) bool {
+    return a[i].count > a[j].count // TODO: Secondary sorting by value (alphabetically increasing)
+}
+
 func (c *CounterImpl) Print() {
-    fmt.Printf("====================\n")
+    array := make([]WordCount, 0, len(c.wordCounts))
     for k, v := range c.wordCounts {
-        fmt.Printf("%3d - %s\n", v, k)
+        array = append(array, WordCount{word: k, count: v})
     }
-    fmt.Printf("====================\n")
+    sort.Sort(ByWordCount(array))
+    for _, v := range array {
+        fmt.Printf("%3d - %s\n", v.count, v.word)
+    }
 }
 
 // Factory function
