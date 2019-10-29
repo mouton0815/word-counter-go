@@ -1,27 +1,29 @@
 package main
 
 type Terminator interface {
-    Terminate(wordQueue chan string, doneQueue chan bool)
+    Terminate()
 }
 
 type TerminatorImpl struct {
     numWorkers int
+    wordQueue chan string
+    doneQueue chan bool
 }
 
-func (t *TerminatorImpl) Terminate(wordQueue chan string, doneQueue chan bool) {
+func (t TerminatorImpl) Terminate() {
     workerCount := t.numWorkers
-    for range doneQueue {
+    for range t.doneQueue {
         workerCount--
         if workerCount == 0 {
-            close(wordQueue)
-            close(doneQueue)
+            close(t.wordQueue)
+            close(t.doneQueue)
             return
         }
     }
 }
 
 // Factory function
-func newTerminator(numWorkers int) Terminator {
-    return &TerminatorImpl{ numWorkers }
+func newTerminator(numWorkers int, wordQueue chan string, doneQueue chan bool) Terminator {
+    return TerminatorImpl{ numWorkers: numWorkers, wordQueue: wordQueue, doneQueue: doneQueue }
 }
 

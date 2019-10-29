@@ -3,23 +3,23 @@ package main
 func main() {
     numWorkers := 2 // TODO: Make number of workers configurable
 
-    // TODO: Decrease size of all queues for experimenting
+    // TODO: Change size of all queues for experimenting
     pathQueue := make(chan string)
     wordQueue := make(chan string)
     doneQueue := make(chan bool, numWorkers)
 
-    worker := NewWorker()
+    worker := NewWorker(pathQueue, wordQueue, doneQueue)
     for i := 0; i < numWorkers; i++ {
-        go worker.Work(i, pathQueue, wordQueue, doneQueue)
+        go worker.Work(i)
     }
 
-    terminator := newTerminator(numWorkers)
-    go terminator.Terminate(wordQueue, doneQueue)
+    terminator := newTerminator(numWorkers, wordQueue, doneQueue)
+    go terminator.Terminate()
 
-    gatherer := NewGatherer()
-    go gatherer.Gather(pathQueue)
+    gatherer := NewGatherer(pathQueue)
+    go gatherer.Gather()
 
-    counter := NewWordCounter()
-    counter.Count(wordQueue)
+    counter := NewWordCounter(wordQueue)
+    counter.Count()
     counter.Print()
 }

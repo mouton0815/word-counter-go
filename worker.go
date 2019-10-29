@@ -6,27 +6,29 @@ import (
 )
 
 type Worker interface {
-    Work(id int, pathQueue chan string, wordQueue chan string, doneQueue chan bool)
+    Work(id int)
 }
 
 type WorkerImpl struct {
-    // TODO: Empty class
+    pathQueue chan string
+    wordQueue chan string
+    doneQueue chan bool
 }
 
-func (w *WorkerImpl) Work(id int, pathQueue chan string, wordQueue chan string, doneQueue chan bool) {
+func (w WorkerImpl) Work(id int) {
     fmt.Printf("Worker %d starts\n", id)
-    for path := range pathQueue {
+    for path := range w.pathQueue {
         fmt.Printf("Worker %d treats '%s'\n", id, path)
         wordArray := strings.Fields(path)
         for _, word := range wordArray {
-            wordQueue <- word
+            w.wordQueue <- word
         }
     }
     fmt.Printf("Worker %d leaves\n", id)
-    doneQueue <- true
+    w.doneQueue <- true
 }
 
 // Factory function
-func NewWorker() Worker {
-    return &WorkerImpl{}
+func NewWorker(pathQueue, wordQueue chan string, doneQueue chan bool) Worker {
+    return WorkerImpl{ pathQueue: pathQueue, wordQueue: wordQueue, doneQueue: doneQueue }
 }

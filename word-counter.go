@@ -6,19 +6,20 @@ import (
 )
 
 type WordCounter interface {
-    Count(wordQueue chan string)
+    Count()
     Print()
 }
 
 type WordCounterImpl struct {
+    wordQueue chan string
     wordCounts map[string]int
 }
 
-func (c WordCounterImpl) Count(wordQueue chan string)  {
-    for word := range wordQueue {
+func (c WordCounterImpl) Count()  {
+    for word := range c.wordQueue {
         c.wordCounts[word]++
     }
-    fmt.Println("WordCounter leaves")
+    fmt.Println("Counter leaves")
 }
 
 func (c WordCounterImpl) Print() {
@@ -33,6 +34,6 @@ func (c WordCounterImpl) Print() {
 }
 
 // Factory function
-func NewWordCounter() WordCounter {
-    return WordCounterImpl{ wordCounts: make(map[string]int) }
+func NewWordCounter(wordQueue chan string) WordCounter {
+    return WordCounterImpl{ wordQueue: wordQueue, wordCounts: make(map[string]int) }
 }
