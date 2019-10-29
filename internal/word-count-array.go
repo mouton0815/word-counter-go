@@ -1,7 +1,7 @@
 //
 // Typedef of an array of words with their counts plus sorting helpers
 //
-package main
+package internal
 
 type WordCount struct {
     word string
