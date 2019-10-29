@@ -11,9 +11,9 @@ type WorkerPoolImpl struct {
 }
 
 func (w WorkerPoolImpl) Work() {
-    doneQueue := make(chan bool, w.numWorkers)
+    readyQueue := make(chan bool, w.numWorkers)
     fileReader := NewFileReader(NewTokenizer(w.wordQueue))
-    worker := NewWorker(w.pathQueue, fileReader, doneQueue)
+    worker := NewWorker(w.pathQueue, fileReader, readyQueue)
 
     // Spawn workers ...
     for i := 0; i < w.numWorkers; i++ {
@@ -22,11 +22,11 @@ func (w WorkerPoolImpl) Work() {
 
     // ... and wait for their termination
     workerCount := w.numWorkers
-    for range doneQueue {
+    for range readyQueue {
         workerCount--
         if workerCount == 0 {
             close(w.wordQueue)
-            close(doneQueue)
+            close(readyQueue)
             return
         }
     }

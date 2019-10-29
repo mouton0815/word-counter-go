@@ -11,7 +11,7 @@ type Worker interface {
 type WorkerImpl struct {
     pathQueue chan string
     fileReader FileReader
-    doneQueue chan bool
+    readyQueue chan bool
 }
 
 func (w WorkerImpl) Work(id int) {
@@ -21,10 +21,10 @@ func (w WorkerImpl) Work(id int) {
         w.fileReader.Read(path)
    }
     fmt.Printf("Worker %d leaves\n", id)
-    w.doneQueue <- true
+    w.readyQueue <- true
 }
 
 // Factory function
-func NewWorker(pathQueue chan string, fileReader FileReader, doneQueue chan bool) Worker {
-    return WorkerImpl{ pathQueue: pathQueue, fileReader: fileReader, doneQueue: doneQueue }
+func NewWorker(pathQueue chan string, fileReader FileReader, readyQueue chan bool) Worker {
+    return WorkerImpl{ pathQueue: pathQueue, fileReader: fileReader, readyQueue: readyQueue }
 }
