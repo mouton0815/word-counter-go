@@ -26,6 +26,26 @@ func TestSpecialSigns(t *testing.T) {
     AssertEqual(t, "Foo-~bar #!  baz", "foo", "bar", "baz")
 }
 
+func TestUnderscore(t *testing.T) {
+    AssertEqual(t, "foo_bar__baz", "foo_bar__baz")
+}
+
+func TestUnicode1(t *testing.T) {
+    AssertEqual(t, "Fö bär baß", "fö", "bär", "baß")
+}
+
+func TestUnicode2(t *testing.T) {
+    AssertEqual(t, "Раз, два три!", "раз", "два", "три")
+}
+
+func TestUnicode3(t *testing.T) {
+    AssertEqual(t, "Jedna, dva tři čtyři pět!", "jedna", "dva", "tři", "čtyři", "pět")
+}
+
+func TestIgnoreNumbers(t *testing.T) {
+    AssertEqual(t, "foo 123 bar456baz", "foo", "bar", "baz")
+}
+
 func Tokenize(text string) []string {
     queue := make(chan string, 10)
     tokenizer := NewTokenizer(queue)

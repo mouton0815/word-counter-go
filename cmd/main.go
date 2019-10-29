@@ -3,7 +3,7 @@ package main
 import "word-counter-go/internal"
 
 func main() {
-    numWorkers := 2 // TODO: Make number of workers configurable (by command line? by #cores?)
+    numWorkers := 4 // TODO: Make number of workers configurable (by command line? by #cores?)
 
     // TODO: Change size of all queues for experimenting
     pathQueue := make(chan string)

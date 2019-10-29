@@ -14,12 +14,10 @@ type TokenizerImpl struct {
 }
 
 func (t TokenizerImpl) Tokenize(text string) {
-    pattern := regexp.MustCompile(`[^\w]+`)
-    wordArray := pattern.Split(text, -1)
+    pattern := regexp.MustCompile("[\\p{L}_]+")
+    wordArray := pattern.FindAllString(text, -1)
     for _, word := range wordArray {
-        if len(word) > 0 { // Ignore leading and trailing empty tokens
-            t.wordQueue <- strings.ToLower(word)
-        }
+        t.wordQueue <- strings.ToLower(word)
     }
 }
 
