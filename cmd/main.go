@@ -12,8 +12,8 @@ func main() {
     workerPool := internal.NewWorkerPool(numWorkers, pathQueue, wordQueue)
     go workerPool.Work()
 
-    gatherer := internal.NewGatherer(pathQueue)
-    go gatherer.Gather()
+    collector := internal.NewPathCollector(pathQueue)
+    go collector.Collect("testdata")
 
     counter := internal.NewWordCounter(wordQueue)
     counter.Count()

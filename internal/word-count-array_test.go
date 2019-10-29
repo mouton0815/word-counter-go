@@ -28,7 +28,7 @@ func TestSortingSimple(t *testing.T) {
     if !reflect.DeepEqual(array, refArray) { t.Fail() }
 }
 
-func TestSortingTwoWay(t *testing.T) {
+func TestSortingSecondary(t *testing.T) {
     foo := WordCount{word: "foo", count: 2}
     bar := WordCount{word: "bar", count: 1}
     baz := WordCount{word: "baz", count: 2}
