@@ -19,7 +19,7 @@ func main() {
     gatherer := NewGatherer()
     go gatherer.Gather(pathQueue)
 
-    counter := NewCounter()
+    counter := NewWordCounter()
     counter.Count(wordQueue)
     counter.Print()
 }
