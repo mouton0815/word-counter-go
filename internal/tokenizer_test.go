@@ -30,15 +30,15 @@ func TestUnderscore(t *testing.T) {
     AssertEqual(t, "foo_bar__baz", "foo_bar__baz")
 }
 
-func TestUnicode1(t *testing.T) {
+func TestUnicodeGerman(t *testing.T) {
     AssertEqual(t, "Fö bär baß", "fö", "bär", "baß")
 }
 
-func TestUnicode2(t *testing.T) {
+func TestUnicodeRussian(t *testing.T) {
     AssertEqual(t, "Раз, два три!", "раз", "два", "три")
 }
 
-func TestUnicode3(t *testing.T) {
+func TestUnicodeCzech(t *testing.T) {
     AssertEqual(t, "Jedna, dva tři čtyři pět!", "jedna", "dva", "tři", "čtyři", "pět")
 }
 
