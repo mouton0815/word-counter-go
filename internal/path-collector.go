@@ -1,7 +1,7 @@
 package internal
 
 import (
-    "fmt"
+    "log"
     "os"
     "path/filepath"
     "strings"
@@ -18,7 +18,7 @@ type PathCollectorImpl struct {
 func (c PathCollectorImpl) Collect(rootPath string) {
     err := filepath.Walk(rootPath, func(path string, info os.FileInfo, err error) error {
         if err != nil {
-            fmt.Printf("Cannot read path %q: %v\n", path, err)
+            log.Printf("Cannot read path %q: %v\n", path, err)
             return err
         }
         if !info.IsDir() && strings.HasSuffix(info.Name(), ".txt") {

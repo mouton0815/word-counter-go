@@ -1,7 +1,7 @@
 package internal
 
 import (
-    "fmt"
+    "log"
     "reflect"
     "testing"
 )
@@ -71,7 +71,7 @@ func AssertEqual(t *testing.T, text string, refWords ...string) {
     words := Tokenize(text)
     ref := CreateRef(refWords)
     if !reflect.DeepEqual(words, ref) {
-        fmt.Printf("'%v' <-> '%v'\n", words, ref)
+        log.Printf("'%v' <-> '%v'\n", words, ref)
         t.Fail()
     }
 }

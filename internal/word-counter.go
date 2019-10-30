@@ -2,6 +2,7 @@ package internal
 
 import (
     "fmt"
+    "log"
     "sort"
 )
 
@@ -19,7 +20,7 @@ func (c WordCounterImpl) Count()  {
     for word := range c.wordQueue {
         c.wordCounts[word]++
     }
-    fmt.Println("Counter leaves")
+    log.Println("Counter leaves")
 }
 
 func (c WordCounterImpl) Print() {
