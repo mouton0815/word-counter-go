@@ -1,9 +1,12 @@
 package main
 
-import "word-counter-go/internal"
+import (
+    "runtime"
+    "word-counter-go/internal"
+)
 
 func main() {
-    numWorkers := 4 // TODO: Make number of workers configurable (by command line? by #cores?)
+    numWorkers := runtime.NumCPU()
 
     // TODO: Change size of all queues for experimenting
     pathQueue := make(chan string)
