@@ -18,10 +18,14 @@ or with previous build step:
 ```
 ./main <folder>
 ```
+For example, count the words of all files in folder `./data` and write the results in file `wordcounts.txt`:
+```
+./main ./data > wordcounts.txt
+```
 
 # Testing
 ```
-go test ./...
+go test ./test/...
 ```
 
 # License

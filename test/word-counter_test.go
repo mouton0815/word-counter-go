@@ -1,9 +1,10 @@
-package internal
+package test
 
 import (
     "log"
     "reflect"
     "testing"
+    "word-counter-go/internal"
 )
 
 func TestWordCounterEmpty(t *testing.T) {
@@ -14,13 +15,13 @@ func TestWordCounterEmpty(t *testing.T) {
 
 func TestWordCounterSingle(t *testing.T) {
     queue := CreateWordQueue("foo")
-    array := CreateWordCountArray(WordCount{"foo", 1})
+    array := CreateWordCountArray(internal.WordCount{"foo", 1})
     CountAndVerify(t, queue, array)
 }
 
 func TestWordCounterMultiple(t *testing.T) {
     queue := CreateWordQueue("bar", "foo", "bar")
-    array := CreateWordCountArray(WordCount{"bar", 2}, WordCount{"foo", 1})
+    array := CreateWordCountArray(internal.WordCount{"bar", 2}, internal.WordCount{"foo", 1})
     CountAndVerify(t, queue, array)
 }
 
@@ -33,8 +34,8 @@ func CreateWordQueue(words ...string) chan string {
     return wordQueue
 }
 
-func CountAndVerify(t *testing.T, wordQueue chan string, refArray WordCountArray) {
-    counter := NewWordCounter(wordQueue)
+func CountAndVerify(t *testing.T, wordQueue chan string, refArray internal.WordCountArray) {
+    counter := internal.NewWordCounter(wordQueue)
     result := counter.Count()
 
     if !reflect.DeepEqual(result, refArray) {

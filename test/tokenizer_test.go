@@ -1,9 +1,10 @@
-package internal
+package test
 
 import (
     "log"
     "reflect"
     "testing"
+    "word-counter-go/internal"
 )
 
 func TestTokenizerEmpty(t *testing.T) {
@@ -48,7 +49,7 @@ func TestIgnoreNumbers(t *testing.T) {
 
 func Tokenize(text string) []string {
     queue := make(chan string, 10)
-    tokenizer := NewTokenizer(queue)
+    tokenizer := internal.NewTokenizer(queue)
     tokenizer.Tokenize(text)
     close(queue)
 
