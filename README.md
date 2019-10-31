@@ -19,5 +19,10 @@ or with previous build step:
 ./main <folder>
 ```
 
+# Testing
+```
+go test ./...
+```
+
 # License
 MIT

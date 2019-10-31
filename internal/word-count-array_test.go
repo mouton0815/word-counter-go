@@ -6,7 +6,7 @@ import (
     "testing"
 )
 
-func TestSortingEmpty(t *testing.T) {
+func TestWordArraySortingEmpty(t *testing.T) {
     array := make(WordCountArray, 0, 0)
     sort.Sort(array)
 
@@ -14,9 +14,9 @@ func TestSortingEmpty(t *testing.T) {
     if !reflect.DeepEqual(array, refArray) { t.Fail() }
 }
 
-func TestSortingSimple(t *testing.T) {
-    foo := WordCount{word: "foo", count: 1}
-    bar := WordCount{word: "bar", count: 2}
+func TestWordArraySortingSimple(t *testing.T) {
+    foo := WordCount{Word: "foo", Count: 1}
+    bar := WordCount{Word: "bar", Count: 2}
 
     array := make(WordCountArray, 0, 2)
     array = append(array, foo, bar)
@@ -28,10 +28,10 @@ func TestSortingSimple(t *testing.T) {
     if !reflect.DeepEqual(array, refArray) { t.Fail() }
 }
 
-func TestSortingSecondary(t *testing.T) {
-    foo := WordCount{word: "foo", count: 2}
-    bar := WordCount{word: "bar", count: 1}
-    baz := WordCount{word: "baz", count: 2}
+func TestWordArraySortingSecondary(t *testing.T) {
+    foo := WordCount{Word: "foo", Count: 2}
+    bar := WordCount{Word: "bar", Count: 1}
+    baz := WordCount{Word: "baz", Count: 2}
 
     array := make(WordCountArray, 0, 3)
     array = append(array, foo, bar, baz)

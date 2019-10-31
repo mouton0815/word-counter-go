@@ -28,6 +28,8 @@ func main() {
     go collector.Collect(rootPath)
 
     counter := internal.NewWordCounter(wordQueue)
-    counter.Count()
-    counter.Print()
+    wordCounts := counter.Count()
+    for _, item := range wordCounts {
+        fmt.Printf("%3d - %s\n", item.Count, item.Word)
+    }
 }

@@ -4,8 +4,8 @@
 package internal
 
 type WordCount struct {
-    word string
-    count int
+    Word string
+    Count int
 }
 
 type WordCountArray []WordCount
@@ -20,9 +20,9 @@ func (a WordCountArray) Swap(i, j int) {
 }
 
 func (a WordCountArray) Less(i, j int) bool {
-    if a[i].count == a[j].count {
-        return a[i].word < a[j].word
+    if a[i].Count == a[j].Count {
+        return a[i].Word < a[j].Word
     }
-    return a[i].count > a[j].count
+    return a[i].Count > a[j].Count
 }
 
