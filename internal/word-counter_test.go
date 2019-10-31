@@ -7,21 +7,21 @@ import (
 )
 
 func TestWordCounterEmpty(t *testing.T) {
-    wordQueue := CreateWordQueue()
-    refArray := CreateWordCountRef()
-    CountAndVerify(t, wordQueue, refArray)
+    queue := CreateWordQueue()
+    array := CreateWordCountArray()
+    CountAndVerify(t, queue, array)
 }
 
 func TestWordCounterSingle(t *testing.T) {
-    wordQueue := CreateWordQueue("foo")
-    refArray := CreateWordCountRef(WordCount{"foo", 1})
-    CountAndVerify(t, wordQueue, refArray)
+    queue := CreateWordQueue("foo")
+    array := CreateWordCountArray(WordCount{"foo", 1})
+    CountAndVerify(t, queue, array)
 }
 
 func TestWordCounterMultiple(t *testing.T) {
-    wordQueue := CreateWordQueue("bar", "foo", "bar")
-    refArray := CreateWordCountRef(WordCount{ "bar", 2}, WordCount{"foo", 1})
-    CountAndVerify(t, wordQueue, refArray)
+    queue := CreateWordQueue("bar", "foo", "bar")
+    array := CreateWordCountArray(WordCount{"bar", 2}, WordCount{"foo", 1})
+    CountAndVerify(t, queue, array)
 }
 
 func CreateWordQueue(words ...string) chan string {
@@ -33,7 +33,7 @@ func CreateWordQueue(words ...string) chan string {
     return wordQueue
 }
 
-func CreateWordCountRef(wordCounts ...WordCount) WordCountArray {
+func CreateWordCountArray(wordCounts ...WordCount) WordCountArray {
     array := make(WordCountArray, 0, len(wordCounts))
     for _, wordCount := range wordCounts {
         array = append(array, wordCount)
