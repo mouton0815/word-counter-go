@@ -1,43 +1,59 @@
 package internal
 
 import (
+    "log"
     "reflect"
     "sort"
     "testing"
 )
 
 func TestWordArraySortingEmpty(t *testing.T) {
-    array := make(WordCountArray, 0, 0)
-    sort.Sort(array)
-
-    refArray := make(WordCountArray, 0, 0)
-    if !reflect.DeepEqual(array, refArray) { t.Fail() }
+    array := CreateWordCountArray()
+    refArray := CreateWordCountArray()
+    SortAndVerify(t, array, refArray)
 }
 
 func TestWordArraySortingSimple(t *testing.T) {
-    foo := WordCount{Word: "foo", Count: 1}
-    bar := WordCount{Word: "bar", Count: 2}
+    foo := WordCount{"foo", 1}
+    bar := WordCount{"bar", 2}
 
-    array := make(WordCountArray, 0, 2)
-    array = append(array, foo, bar)
-    sort.Sort(array)
-
-    refArray := make(WordCountArray, 0, 2)
-    refArray = append(refArray, bar, foo)
-
-    if !reflect.DeepEqual(array, refArray) { t.Fail() }
+    array := CreateWordCountArray(foo, bar)
+    refArray := CreateWordCountArray(bar, foo)
+    SortAndVerify(t, array, refArray)
 }
 
 func TestWordArraySortingSecondary(t *testing.T) {
-    foo := WordCount{Word: "foo", Count: 2}
-    bar := WordCount{Word: "bar", Count: 1}
-    baz := WordCount{Word: "baz", Count: 2}
+    foo := WordCount{"foo", 2}
+    bar := WordCount{"bar", 1}
+    baz := WordCount{"baz", 2}
 
-    array := make(WordCountArray, 0, 3)
-    array = append(array, foo, bar, baz)
+    array := CreateWordCountArray(foo, bar, baz)
+    refArray := CreateWordCountArray(baz, foo, bar)
+    SortAndVerify(t, array, refArray)
+}
+
+func TestWordArraySortingUnicode(t *testing.T) {
+    foo := WordCount{"über", 1}
+    bar := WordCount{"Zuse", 1}
+    baz := WordCount{"Ödem", 1}
+
+    array := CreateWordCountArray(foo, bar, baz)
+    refArray := CreateWordCountArray(baz, foo, bar)
+    SortAndVerify(t, array, refArray)
+}
+
+func CreateWordCountArray(wordCounts ...WordCount) WordCountArray {
+    array := make(WordCountArray, 0, len(wordCounts))
+    for _, wordCount := range wordCounts {
+        array = append(array, wordCount)
+    }
+    return array
+}
+
+func SortAndVerify(t *testing.T, array WordCountArray, refArray WordCountArray) {
     sort.Sort(array)
-
-    refArray := make(WordCountArray, 0, 3)
-    refArray = append(refArray, baz, foo, bar)
-    if !reflect.DeepEqual(array, refArray) { t.Fail() }
+    if !reflect.DeepEqual(array, refArray) {
+        log.Printf("'%v' <-> '%v'\n", array, refArray)
+        t.Fail()
+    }
 }

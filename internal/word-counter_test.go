@@ -33,14 +33,6 @@ func CreateWordQueue(words ...string) chan string {
     return wordQueue
 }
 
-func CreateWordCountArray(wordCounts ...WordCount) WordCountArray {
-    array := make(WordCountArray, 0, len(wordCounts))
-    for _, wordCount := range wordCounts {
-        array = append(array, wordCount)
-    }
-    return array
-}
-
 func CountAndVerify(t *testing.T, wordQueue chan string, refArray WordCountArray) {
     counter := NewWordCounter(wordQueue)
     result := counter.Count()
@@ -50,5 +42,3 @@ func CountAndVerify(t *testing.T, wordQueue chan string, refArray WordCountArray
         t.Fail()
     }
 }
-
-
