@@ -60,7 +60,7 @@ func Tokenize(text string) []string {
     return words
 }
 
-func CreateRef(words []string) []string {
+func CreateRefArray(words []string) []string {
     ref := make([]string, 0, len(words))
     for _, word := range words {
         ref = append(ref, word)
@@ -70,7 +70,7 @@ func CreateRef(words []string) []string {
 
 func TokenizeAndVerify(t *testing.T, text string, refWords ...string) {
     words := Tokenize(text)
-    ref := CreateRef(refWords)
+    ref := CreateRefArray(refWords)
     if !reflect.DeepEqual(words, ref) {
         log.Printf("'%v' <-> '%v'\n", words, ref)
         t.Fail()
