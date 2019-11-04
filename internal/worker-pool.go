@@ -7,13 +7,12 @@ type WorkerPool interface {
 type WorkerPoolImpl struct {
     numWorkers int
     pathQueue chan string
-    wordQueue chan string
+    fileReader FileReader
 }
 
 func (w WorkerPoolImpl) Work() {
     readyQueue := make(chan bool, w.numWorkers)
-    fileReader := NewFileReader(NewTokenizer(w.wordQueue))
-    worker := NewWorker(w.pathQueue, fileReader, readyQueue)
+    worker := NewWorker(w.pathQueue, w.fileReader, readyQueue)
 
     // Spawn workers ...
     for i := 0; i < w.numWorkers; i++ {
@@ -25,7 +24,7 @@ func (w WorkerPoolImpl) Work() {
     for range readyQueue {
         workerCount--
         if workerCount == 0 {
-            close(w.wordQueue)
+            w.fileReader.Close()
             close(readyQueue)
             return
         }
@@ -33,6 +32,6 @@ func (w WorkerPoolImpl) Work() {
 }
 
 // Factory function
-func NewWorkerPool(numWorkers int, pathQueue, wordQueue chan string) WorkerPool {
-    return WorkerPoolImpl{ numWorkers: numWorkers, pathQueue: pathQueue, wordQueue: wordQueue }
+func NewWorkerPool(numWorkers int, pathQueue chan string, fileReader FileReader) WorkerPool {
+    return WorkerPoolImpl{ numWorkers, pathQueue, fileReader }
 }

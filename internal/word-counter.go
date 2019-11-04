@@ -8,29 +8,29 @@ import (
 type WordCountMap map[string]int
 
 type WordCounter interface {
-    Count() WordCountArray
+    Count() WordCountSlice
 }
 
 type WordCounterImpl struct {
     wordQueue chan string
 }
 
-func (c WordCounterImpl) Count() WordCountArray {
+func (c WordCounterImpl) Count() WordCountSlice {
     wordCounts := make(WordCountMap)
     for word := range c.wordQueue {
         wordCounts[word]++
     }
     log.Println("Counter leaves")
-    return ToSortedArray(wordCounts)
+    return ToSortedSlice(wordCounts)
 }
 
-func ToSortedArray(wordCounts WordCountMap) WordCountArray {
-    array := make(WordCountArray, 0, len(wordCounts))
+func ToSortedSlice(wordCounts WordCountMap) WordCountSlice {
+    slice := make(WordCountSlice, 0, len(wordCounts))
     for k, v := range wordCounts {
-        array = append(array, WordCount{Word: k, Count: v})
+        slice = append(slice, WordCount{Word: k, Count: v})
     }
-    sort.Sort(array)
-    return array
+    sort.Sort(slice)
+    return slice
 }
 
 // Factory function

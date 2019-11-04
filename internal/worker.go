@@ -26,5 +26,5 @@ func (w WorkerImpl) Work(id int) {
 
 // Factory function
 func NewWorker(pathQueue chan string, fileReader FileReader, readyQueue chan bool) Worker {
-    return WorkerImpl{ pathQueue: pathQueue, fileReader: fileReader, readyQueue: readyQueue }
+    return WorkerImpl{ pathQueue, fileReader, readyQueue }
 }

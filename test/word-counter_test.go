@@ -1,28 +1,26 @@
 package test
 
 import (
-    "log"
-    "reflect"
     "testing"
     "word-counter-go/internal"
 )
 
 func TestWordCounterEmpty(t *testing.T) {
     queue := CreateWordQueue()
-    array := CreateWordCountArray()
-    CountAndVerify(t, queue, array)
+    slice := internal.WordCountSlice{}
+    CountAndVerify(t, queue, slice)
 }
 
 func TestWordCounterSingle(t *testing.T) {
     queue := CreateWordQueue("foo")
-    array := CreateWordCountArray(internal.WordCount{"foo", 1})
-    CountAndVerify(t, queue, array)
+    slice := internal.WordCountSlice{internal.WordCount{"foo", 1}}
+    CountAndVerify(t, queue, slice)
 }
 
 func TestWordCounterMultiple(t *testing.T) {
     queue := CreateWordQueue("bar", "foo", "bar")
-    array := CreateWordCountArray(internal.WordCount{"bar", 2}, internal.WordCount{"foo", 1})
-    CountAndVerify(t, queue, array)
+    slice := internal.WordCountSlice{internal.WordCount{"bar", 2}, internal.WordCount{"foo", 1}}
+    CountAndVerify(t, queue, slice)
 }
 
 func CreateWordQueue(words ...string) chan string {
@@ -34,12 +32,8 @@ func CreateWordQueue(words ...string) chan string {
     return wordQueue
 }
 
-func CountAndVerify(t *testing.T, wordQueue chan string, refArray internal.WordCountArray) {
+func CountAndVerify(t *testing.T, wordQueue chan string, refSlice internal.WordCountSlice) {
     counter := internal.NewWordCounter(wordQueue)
     result := counter.Count()
-
-    if !reflect.DeepEqual(result, refArray) {
-        log.Printf("'%v' <-> '%v'\n", result, refArray)
-        t.Fail()
-    }
+    CompareWordCountSlices(t, result, refSlice)
 }

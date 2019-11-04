@@ -21,7 +21,8 @@ func main() {
     pathQueue := make(chan string, 100)
     wordQueue := make(chan string, 1000)
 
-    workerPool := internal.NewWorkerPool(numWorkers, pathQueue, wordQueue)
+    fileReader := internal.NewFileReader(internal.NewTokenizer(wordQueue))
+    workerPool := internal.NewWorkerPool(numWorkers, pathQueue, fileReader)
     go workerPool.Work()
 
     collector := internal.NewPathCollector(pathQueue)

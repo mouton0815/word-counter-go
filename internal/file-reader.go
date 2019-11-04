@@ -7,6 +7,7 @@ import (
 
 type FileReader interface {
     Read(path string)
+    Close()
 }
 
 type FileReaderImpl struct {
@@ -28,6 +29,10 @@ func (r FileReaderImpl) Read(path string) {
     if err := scanner.Err(); err != nil {
         panic(err)
     }
+}
+
+func (r FileReaderImpl) Close() {
+    r.tokenizer.Close()
 }
 
 // Factory function

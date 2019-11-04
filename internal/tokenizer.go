@@ -7,6 +7,7 @@ import (
 
 type Tokenizer interface {
     Tokenize(text string)
+    Close()
 }
 
 type TokenizerImpl struct {
@@ -15,13 +16,17 @@ type TokenizerImpl struct {
 
 func (t TokenizerImpl) Tokenize(text string) {
     pattern := regexp.MustCompile("[\\p{L}_]+")
-    wordArray := pattern.FindAllString(text, -1)
-    for _, word := range wordArray {
+    wordSlice := pattern.FindAllString(text, -1)
+    for _, word := range wordSlice {
         t.wordQueue <- strings.ToLower(word)
     }
 }
 
+func (t TokenizerImpl) Close() {
+    close(t.wordQueue)
+}
+
 // Factory function
 func NewTokenizer(wordQueue chan string) Tokenizer {
-    return TokenizerImpl{ wordQueue: wordQueue }
+    return TokenizerImpl{ wordQueue }
 }
