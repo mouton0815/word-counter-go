@@ -1,5 +1,7 @@
 package internal
 
+import "sync"
+
 type WorkerPool interface {
     Work()
 }
@@ -11,24 +13,18 @@ type WorkerPoolImpl struct {
 }
 
 func (w WorkerPoolImpl) Work() {
-    readyQueue := make(chan bool, w.numWorkers)
-    worker := NewWorker(w.pathQueue, w.fileReader, readyQueue)
+    var waitGroup sync.WaitGroup
+    worker := NewWorker(w.pathQueue, w.fileReader, &waitGroup)
 
     // Spawn workers ...
     for i := 0; i < w.numWorkers; i++ {
+        waitGroup.Add(1)
         go worker.Work(i)
     }
 
     // ... and wait for their termination
-    workerCount := w.numWorkers
-    for range readyQueue {
-        workerCount--
-        if workerCount == 0 {
-            w.fileReader.Close()
-            close(readyQueue)
-            return
-        }
-    }
+    waitGroup.Wait()
+    w.fileReader.Close()
 }
 
 // Factory function

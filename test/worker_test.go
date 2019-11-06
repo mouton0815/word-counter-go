@@ -1,6 +1,7 @@
 package test
 
 import (
+    "sync"
     "testing"
     "word-counter-go/internal"
 )
@@ -16,8 +17,9 @@ func TestWorkerNormal(t *testing.T) {
 func WorkAndVerify(t *testing.T, paths ...string) {
     pathQueue := make(chan string)
     fileReader := NewFileReaderMock(len(paths))
-    readyQueue := make(chan bool)
-    worker := internal.NewWorker(pathQueue, &fileReader, readyQueue)
+    var waitGroup sync.WaitGroup
+    worker := internal.NewWorker(pathQueue, &fileReader, &waitGroup)
+    waitGroup.Add(1)
     go worker.Work(1)
 
     for _, path := range paths {
@@ -26,7 +28,7 @@ func WorkAndVerify(t *testing.T, paths ...string) {
     close(pathQueue)
 
     // Block until worker is ready
-    <- readyQueue
+    waitGroup.Wait()
 
     CompareStringSlices(t, fileReader.result, paths)
 }
