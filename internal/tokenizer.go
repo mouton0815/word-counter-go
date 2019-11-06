@@ -15,7 +15,7 @@ type TokenizerImpl struct {
 }
 
 func (t TokenizerImpl) Tokenize(text string) {
-    pattern := regexp.MustCompile("[\\p{L}_]+")
+    pattern := regexp.MustCompile("[\\p{L}_]+") // TODO: Compile regexp in constructor
     wordSlice := pattern.FindAllString(text, -1)
     for _, word := range wordSlice {
         t.wordQueue <- strings.ToLower(word)

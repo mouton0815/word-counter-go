@@ -41,7 +41,7 @@ func TestTokenizerUnicodeCzech(t *testing.T) {
     TokenizeAndVerify(t, "Jedna, dva tři čtyři pět!", "jedna", "dva", "tři", "čtyři", "pět")
 }
 
-func TestIgnoreNumbers(t *testing.T) {
+func TestTokenizerIgnoreNumbers(t *testing.T) {
     TokenizeAndVerify(t, "foo 123 bar456baz", "foo", "bar", "baz")
 }
 

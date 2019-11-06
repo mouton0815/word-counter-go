@@ -18,7 +18,7 @@ func main() {
     numWorkers := runtime.NumCPU() - 2
     if numWorkers < 1 { numWorkers = 1 }
 
-    pathQueue := make(chan string, 100)
+    pathQueue := make(chan string, 1000)
     wordQueue := make(chan string, 1000)
 
     fileReader := internal.NewFileReader(internal.NewTokenizer(wordQueue))
