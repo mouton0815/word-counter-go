@@ -2,8 +2,10 @@ package main
 
 import (
     "fmt"
+    "log"
     "os"
     "runtime"
+    "time"
     "word-counter-go/internal"
 )
 
@@ -13,6 +15,9 @@ func main() {
         return
     }
     rootPath := os.Args[1]
+
+    // Measure time including setup
+    startTime := time.Now()
 
     // Reserve one CPU for the path collector and one for the word counter (this thread)
     numWorkers := runtime.NumCPU() - 2
@@ -33,4 +38,7 @@ func main() {
     for _, item := range wordCounts {
         fmt.Printf("%3d - %s\n", item.Count, item.Word)
     }
+
+    elapsed := time.Since(startTime)
+    log.Printf("Elapsed time %s\n", elapsed)
 }
