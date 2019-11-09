@@ -1,9 +1,9 @@
 # Word Counter (Go Version)
 Counts the number of occurrences of every word in all text files within a folder.
 
-Goals of this project are:
+Goals of this project were:
 * Learn the Go language.
-* Compare with implementations of the same project in C++, Node, [Java](https://github.com/mouton0815/word-counter-java), Python.
+* Compare with implementations of the same project in C++, [Java](https://github.com/mouton0815/word-counter-java), Node, Python.
 
 The project consists of
 * A [path collector](internal/path-collector.go) that retrieves the path names of all `*.txt` files in a given folder and its subdirectories
