@@ -16,6 +16,14 @@ which splits the text into words and passes them to a channel name `wordQueue`.
 * A [main](cmd/main.go) program that wires the classes, starts the path collector, the worker pool, and the word counter.
 Finally, it outputs the word lists ordered by decreasing number of occurences. 
 
+Some observations:
+* The Go variant is roughly 70% faster than the [Java variant](https://github.com/mouton0815/word-counter-java).
+* In contrast to Java's [BlockingQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/BlockingQueue.html),
+channels can be closed, which is a very handy way of terminating multiple goroutines listening to the same channel.
+* Go feels rather opinionated and down-to-the-earth, much in contrast to many languages with academic background.
+However, programming in Go is quite effective. There are predefined solutions or patterns for many problems.
+Go programs require comparable little boilerplate code.
+
 # Building
 ```
 go build cmd/main.go
