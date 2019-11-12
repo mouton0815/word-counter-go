@@ -12,11 +12,11 @@ type Tokenizer interface {
 
 type TokenizerImpl struct {
     wordQueue chan string
+    pattern *regexp.Regexp
 }
 
 func (t TokenizerImpl) Tokenize(text string) {
-    pattern := regexp.MustCompile("[\\p{L}_]+") // TODO: Compile regexp in constructor
-    wordSlice := pattern.FindAllString(text, -1)
+    wordSlice := t.pattern.FindAllString(text, -1)
     for _, word := range wordSlice {
         t.wordQueue <- strings.ToLower(word)
     }
@@ -28,5 +28,5 @@ func (t TokenizerImpl) Close() {
 
 // Factory function
 func NewTokenizer(wordQueue chan string) Tokenizer {
-    return TokenizerImpl{ wordQueue }
+    return TokenizerImpl{ wordQueue: wordQueue, pattern: regexp.MustCompile("[\\p{L}_]+") }
 }
