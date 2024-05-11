@@ -14,7 +14,7 @@ which splits the text into words and passes them to a channel name `wordQueue`.
 * A number of [workers](internal/worker.go) that receive path names from a `pathQueue` and hands them over to the file reader.
 * A [worker pool](internal/worker-pool.go) that spawns a worker for every available CPU and waits for their terminations.
 * A [word counter](internal/word-counter.go) that listens to `wordQueue` and counts the number of occurrences for every word.
-* A [main](cmd/main.go) program that wires the classes, starts the path collector, the worker pool, and the word counter.
+* A [main](main.go) program that wires the classes, starts the path collector, the worker pool, and the word counter.
 Finally, it outputs the word lists ordered by decreasing number of occurrences. 
 
 Some observations:
@@ -27,12 +27,12 @@ Go programs require comparable little boilerplate code.
 
 # Building
 ```
-go build cmd/main.go
+go build
 ```
 
 # Running
 ```
-go run cmd/main.go <folder>
+go run main.go <folder>
 ```
 or with previous build step:
 ```
